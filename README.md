@@ -1,1 +1,69 @@
-# local-devops
+# Local DevOps
+
+
+### Requirements
+
+- [terraform](https://terraform.io) v0.12+
+- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) `kubectl` command
+- [helm](https://helm.sh/docs/intro/install/) `helm` command
+
+
+## Setting Metrics Server for docker-desktop
+
+``` shell
+kubectl edit deployment/kubernetes-dashboard-metrics-server -n kubernetes-dashboard
+```
+Add two arguments and save
+``` yaml
+- command:
+    - ...
+    - --kubelet-preferred-address-types=InternalIP,Hostname,ExternalIP
+    - --kubelet-insecure-tls=true
+```
+
+## Access Kubernetes Dashboard
+
+Now, create a proxy server that will allow you to navigate to the dashboard 
+from the browser on your local machine. This will continue running until you stop the process by pressing `CTRL + C`.
+
+```shell
+$ kubectl proxy
+```
+
+You should be able to access the Kubernetes dashboard [here](http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:https/proxy/).
+
+```plaintext
+http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:https/proxy/
+```
+
+## Authenticate the dashboard
+
+To use the Kubernetes dashboard, you need to provide an authorization token. 
+Authenticating using `kubeconfig` is **not** an option. You can read more about
+it in the [Kubernetes documentation](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/#accessing-the-dashboard-ui).
+
+Generate the token in another terminal (do not close the `kubectl proxy` process).
+
+```shell
+$ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep service-controller-token | awk '{print $1}')
+
+Name:         service-controller-token-46qlm
+Namespace:    kube-system
+Labels:       <none>
+Annotations:  kubernetes.io/service-account.name: service-controller
+              kubernetes.io/service-account.uid: dd1948f3-6234-11ea-bb3f-0a063115cf22
+
+Type:  kubernetes.io/service-account-token
+
+Data
+====
+ca.crt:     1025 bytes
+namespace:  11 bytes
+token:      eyJhbGciOiJSUzI1NiIsImtpZCI6I...
+```
+
+Select "Token" on the Dashboard UI then copy and paste the entire token you 
+receive into the 
+[dashboard authentication screen](http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) 
+to sign in. You are now signed in to the dashboard for your Kubernetes cluster.
+

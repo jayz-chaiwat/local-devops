@@ -1,0 +1,3 @@
+module "components" {
+    source = "./components"
+}
