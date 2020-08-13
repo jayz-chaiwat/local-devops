@@ -8,6 +8,27 @@
 - [helm](https://helm.sh/docs/intro/install/) `helm` command
 
 
+## How to run
+
+Initial terraform download library
+
+``` shell
+terraform init
+```
+
+Terraform validate and build
+
+``` shell
+terraform validate
+terraform plan
+```
+
+Terraform apply (Run)
+
+``` shell
+terraform apply
+```
+
 ## Setting Metrics Server for docker-desktop
 
 ``` shell
