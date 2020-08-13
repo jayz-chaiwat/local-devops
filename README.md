@@ -13,6 +13,7 @@
 Initial terraform download library
 
 ``` shell
+cd tf
 terraform init
 ```
 
