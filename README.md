@@ -8,25 +8,39 @@
 - [helm](https://helm.sh/docs/intro/install/) `helm` command
 - RKE terraform provider version 1.0.1 installed locally - full install instructions [below](#installing-terraform-provider-rke)
 
-#### Installing terraform-provider-rke
+#### Installing terraform-provider-virtual-box
 
-##### Linux
+##### MacOS
 
-###### 64-bit
-
-Download [the v1.0.1 release archive for Linux](https://github.com/rancher/terraform-provider-rke/releases/download/v1.0.1/terraform-provider-rke_1.0.1_linux_amd64.zip),
-extract the archive, and move the binary to
-`~/.terraform.d/plugins/linux_amd64/terraform-provider-rke_v1.0.1`.
+Download [the v1.0.1 release archive for MacOS](https://github.com/terra-farm/terraform-provider-virtualbox/releases/download/v0.1.1/terraform-provider-virtualbox_darwin_amd64),
+change name and move the binary to
+`~/.terraform.d/plugins/darwin_amd64/terraform-provider-virtualbox_v0.1.1`.
 
 If curl and unzip are installed, you can use the following script:
 ```sh
-curl -LO https://github.com/rancher/terraform-provider-rke/releases/download/v1.0.1/terraform-provider-rke_1.0.1_linux_amd64.zip && \
-unzip terraform-provider-rke_1.0.1_linux_amd64.zip && \
-chmod +x ./terraform-provider-rke_v1.0.1 && \
-mkdir -p ~/.terraform.d/plugins/linux_amd64/ && \
-mv ./terraform-provider-rke_v1.0.1 ~/.terraform.d/plugins/linux_amd64/terraform-provider-rke_v1.0.1
-rm -rf ./terraform-provider-rke_*
+curl -LO https://github.com/terra-farm/terraform-provider-virtualbox/releases/download/v0.1.1/terraform-provider-virtualbox_darwin_amd64 && \
+chmod +x ./terraform-provider-virtualbox_darwin_amd64 && \
+mkdir -p ~/.terraform.d/plugins/darwin_amd64/ && \
+mv ./terraform-provider-virtualbox_darwin_amd64 ~/.terraform.d/plugins/darwin_amd64/terraform-provider-virtualbox_v0.1.1
 ```
+
+##### Windows
+
+###### 64-bit
+
+Download [the v1.0.1 release archive for Windows (64-bit)](https://github.com/terra-farm/terraform-provider-virtualbox/releases/download/v0.1.1/terraform-provider-virtualbox_windows_amd64.exe),
+change name and move the binary to
+`%APPDATA%\terraform.d\plugins\windows_amd64\terraform-provider-virtualbox_v0.1.1.exe`.
+
+You can use the following PowerShell script to perform the same steps (tested with PS version 5.1):
+```
+New-Item -Path $Env:APPDATA\terraform.d\plugins\windows_amd64 -ItemType Directory -Force
+Invoke-WebRequest -Uri https://github.com/terra-farm/terraform-provider-virtualbox/releases/download/v0.1.1/terraform-provider-virtualbox_windows_amd64.exe -OutFile terraform-provider-virtualbox_windows_amd64.exe -UseBasicParsing
+Expand-Archive terraform-provider-rke_1.0.1_windows_amd64.zip
+Move-Item -Path terraform-provider-virtualbox_windows_amd64.exe -Destination $Env:APPDATA\terraform.d\plugins\windows_amd64\terraform-provider-virtualbox_v0.1.1.exe
+```
+
+#### Installing terraform-provider-rke
 
 ##### MacOS
 
@@ -75,6 +89,7 @@ Expand-Archive terraform-provider-rke_1.0.1_windows_386.zip
 Move-Item -Path terraform-provider-rke_1.0.1_windows_386\terraform-provider-rke_v1.0.1.exe -Destination $Env:APPDATA\terraform.d\plugins\windows_386\terraform-provider-rke_v1.0.1.exe
 Remove-Item -Path terraform-provider-rke_1.0.1_windows_386* -Recurse
 ```
+
 ## How to run
 
 Initial terraform download library
