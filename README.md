@@ -3,17 +3,26 @@
 
 ### Requirements
 
+- [docker-desktop](https://www.docker.com/products/docker-desktop) stable version
 - [terraform](https://terraform.io) v0.12+
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) `kubectl` command
 - [helm](https://helm.sh/docs/intro/install/) `helm` command
+- [argocd](https://argoproj.github.io/argo-cd/cli_installation/) `argocd` command
 
+## Enabling Kubernetes
+
+Docker Desktop includes a standalone Kubernetes server that runs on your Windows host, so that you can test deploying your Docker workloads on Kubernetes.
+
+![Alt text](https://docs.docker.com/docker-for-windows/images/settings-kubernetes.png "Kubernetes")
+
+[x] Enable Kuberbetes
 
 ## How to run
 
 Initial terraform download library
 
 ``` shell
-cd tf
+cd tf/components/
 terraform init
 ```
 
