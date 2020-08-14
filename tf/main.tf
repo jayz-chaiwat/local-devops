@@ -1,3 +1,0 @@
-module "components" {
-    source = "./components"
-}
