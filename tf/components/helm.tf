@@ -20,13 +20,13 @@ resource "helm_release" "kubernetes_dashboard_release" {
   }
 }
 
-
 resource "helm_release" "argocd_release" {
   name  = "argocd"
   namespace = "argocd"
   create_namespace = true
   repository = "https://argoproj.github.io/argo-helm"
   chart = "argo-cd"
+
   depends_on = [
     helm_release.kubernetes_dashboard_release,
   ]
