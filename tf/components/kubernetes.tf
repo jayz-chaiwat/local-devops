@@ -35,7 +35,7 @@ resource "null_resource" "secret" {
   }
   # This step will FAIL unless port-forwarding is on, WIP
   provisioner "local-exec" {
-    command = "argocd login ${minikube_ip}:30080 --username admin --password ${random_password.argopass.result} --insecure | argocd repo add https://github.com/${var.git_server}/${var.git_repository} --username ${var.git_username} --password ${var.git_password} --name ${var.git_repository} "
+    command = "argocd login ${var.minikube_ip}:30080 --username admin --password ${random_password.argopass.result} --insecure | argocd repo add https://github.com/${var.git_server}/${var.git_repository} --username ${var.git_username} --password ${var.git_password} --name ${var.git_repository} "
     interpreter = ["PowerShell", "-Command"]
   }
   provisioner "local-exec" {
