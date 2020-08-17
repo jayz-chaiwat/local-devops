@@ -15,9 +15,12 @@ variable "namespaces" {
   description = "base namespaces"
 }
 
+variable "minikube_ip" {
+  description = "The endpoint of your cluster"
+}
+
 variable "git_server" {
   type=string
-  default = var.git_username
   description = "Git account the repository is located in"
 }
 

@@ -52,6 +52,6 @@ resource "helm_release" "argocd_release" {
   }
 
   depends_on = [
-    random_password.argopass.result,
+    random_password.argopass,
   ]
 }
