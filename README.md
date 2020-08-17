@@ -3,19 +3,50 @@
 
 ### Requirements
 
-- [docker-desktop](https://www.docker.com/products/docker-desktop) stable version
 - [terraform](https://terraform.io) v0.12+
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) `kubectl` command
+- [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) `minikube` command
 - [helm](https://helm.sh/docs/intro/install/) `helm` command
 - [argocd](https://argoproj.github.io/argo-cd/cli_installation/) `argocd` command
 
+install with **HomeBrew** (Unix)
+
+``` shell
+brew install terraform  
+brew install kubectl  
+brew install minikube  
+brew install helm  
+brew tap argoproj/tap  
+brew install argoproj/tap/argocd  
+```
+
+install with **Chocolatey** (Windows)
+
+``` shell
+choco install terraform  
+choco install kubernetes-cli  
+choco install minikube  
+choco install kubernetes-helm  
+```
+
+Argo CLI on Windows: download the latest [windows-executable](https://github.com/argoproj/argo-cd/releases) and add it to the path environment variables.
+
 ## Enabling Kubernetes
 
-Docker Desktop includes a standalone Kubernetes server that runs on your Windows host, so that you can test deploying your Docker workloads on Kubernetes.
+We will use Minikube to host our local Kubernetes server, when Docker Desktop is installed and running, this will automatically run in a Docker container unless specified otherwise. We want to run our Minikube image in a Virtual Machine, therefore it is recommended to completely turn off Docker Desktop before using minikube. 
 
-![Alt text](https://docs.docker.com/docker-for-windows/images/settings-kubernetes.png "Kubernetes")
+Start a Kubernetes server using Minikube
 
-[x] Enable Kuberbetes
+``` shell
+minikube start --vm=true
+minikube addons enable ingress
+```
+
+To get the IP address of your cluster
+
+``` shell
+minikube ip
+```
 
 ## How to run
 
@@ -30,7 +61,7 @@ Terraform validate and build
 
 ``` shell
 terraform validate
-terraform plan
+terraform plan            (optional)
 ```
 
 Terraform apply (Run)
