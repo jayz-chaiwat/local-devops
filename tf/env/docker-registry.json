@@ -1,5 +1,5 @@
 {
-    "index.docker.io": {
+    "https://index.docker.io/v1/": {
       "username": "username",
       "password": "password",
       "email": "email@address.com"
