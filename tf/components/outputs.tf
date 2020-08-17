@@ -5,3 +5,11 @@ output "argocd_initial_password" {
     random_password.argopass,
   ]
 }
+
+output "postgres_password" {
+  value = random_password.postgrespass.result
+
+  depends_on = [
+    random_password.postgrespass.result,
+  ]
+}
