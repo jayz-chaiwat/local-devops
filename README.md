@@ -63,8 +63,8 @@ host: Running
 kubelet: Running
 apiserver: Running
 kubeconfig: Configured
-After you have confirmed whether Minikube is working with your chosen hypervisor, you can continue to use Minikube or you can stop your cluster. To stop your cluster, run:
 ```
+After you have confirmed whether Minikube is working with your chosen hypervisor, you can continue to use Minikube or you can stop your cluster. To stop your cluster, run:
 
 ``` shell
 minikube stop

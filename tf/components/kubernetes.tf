@@ -39,7 +39,7 @@ resource "null_resource" "secret" {
     interpreter = ["PowerShell", "-Command"]
   }
   provisioner "local-exec" {
-    command = "argocd login ${minikube_ip}:30080 --username admin --password ${random_password.argopass.result} --insecure | argocd app create ${var.application_name} --repo https://github.com/${var.git_server}/${var.git_repository} --path ${var.yaml_config_directory} --dest-server https://kubernetes.default.svc --dest-namespace ${kubernetes_namespace.default_namespace.metadata.0.name}"
+    command = "argocd login ${var.minikube_ip}:30080 --username admin --password ${random_password.argopass.result} --insecure | argocd app create ${var.application_name} --repo https://github.com/${var.git_server}/${var.git_repository} --path ${var.yaml_config_directory} --dest-server https://kubernetes.default.svc --dest-namespace ${kubernetes_namespace.default_namespace.metadata.0.name}"
     interpreter = ["PowerShell", "-Command"]
   }
   provisioner "local-exec" {     
