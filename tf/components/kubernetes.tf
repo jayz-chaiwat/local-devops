@@ -33,6 +33,9 @@ resource "null_resource" "secret" {
     command = "kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=${var.dockerhub_user} --docker-password=${var.dockerhub_password} --docker-email=${var.email} -n ${kubernetes_namespace.default_namespace.metadata.0.name}"
     interpreter = ["PowerShell", "-Command"]
   }
+  provisioner "local-exec" {
+    command = "kubectl delete svc argocd-server-exposed -n argocd"
+  }
   depends_on = [
     kubernetes_namespace.default_namespace,
   ]

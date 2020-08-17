@@ -1,5 +1,7 @@
 # Local DevOps
 
+This program is written to automate the deployment of any kubernetes, kustomize or helm structured application on a local device with either a Windows or Unix based OS. The deployment will be managed by ArgoCD, synchronized with a GitHub repository and the container is pulled from a DockerHub repository. Before you can begin, make sure the GitHub repository is initialised with a folder containing all the kubernetes .yaml files.   
+![Alt text](ArgoCD_Pipeline.png "Title")
 
 ### Requirements
 
@@ -12,24 +14,24 @@
 install with **HomeBrew** (Unix)
 
 ``` shell
-brew install terraform  
-brew install kubectl  
-brew install minikube  
-brew install helm  
-brew tap argoproj/tap  
-brew install argoproj/tap/argocd  
+$ brew install terraform  
+$ brew install kubectl  
+$ brew install minikube  
+$ brew install helm  
+$ brew tap argoproj/tap  
+$ brew install argoproj/tap/argocd  
 ```
 
 install with **Chocolatey** (Windows)
 
 ``` shell
-choco install terraform  
-choco install kubernetes-cli  
-choco install minikube  
-choco install kubernetes-helm  
+> choco install terraform  
+> choco install kubernetes-cli  
+> choco install minikube  
+> choco install kubernetes-helm  
 ```
 
-Argo CLI on Windows: download the latest [windows-executable](https://github.com/argoproj/argo-cd/releases) and add it to the path environment variables.
+**Argo CLI** on Windows: download the latest [windows-executable](https://github.com/argoproj/argo-cd/releases) and add it to the path environment variables.
 
 ## Enabling Kubernetes
 
@@ -48,6 +50,22 @@ To get the IP address of your cluster
 minikube ip
 ```
 
+## Add a configuration
+
+create a file `configuration.tfvars` in the same directory, and populate it with your configuration. 
+
+``` vim
+dockerhub_user = "dockerhub_username"
+email = "example@appman.co.th"
+git_username = "github_username"
+git_server = "appman-agm"
+namespaces = "custom_namespace"
+git_repository = "github_repo"
+yaml_config_directory = "config_dir"
+application_name = "appname"
+minikube_ip= "result_of_minikube_ip"
+```
+
 ## How to run
 
 Initial terraform download library
@@ -61,13 +79,16 @@ Terraform validate and build
 
 ``` shell
 terraform validate
-terraform plan            (optional)
+terraform plan -var-file="./configuration.tfvars"
 ```
 
-Terraform apply (Run)
+Terraform apply (Will prompt to enter dockerhub and github password)
 
 ``` shell
-terraform apply
+terraform apply -var-file="./configuration.tfvars" -auto-approve  
+```
+```
+clear                       (fully removes the exposed passwords)
 ```
 
 ## Setting Metrics Server for docker-desktop
@@ -129,3 +150,21 @@ receive into the
 [dashboard authentication screen](http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) 
 to sign in. You are now signed in to the dashboard for your Kubernetes cluster.
 
+## Log in to ArgoCD UI
+
+Retrieve the generated password from terraform state.
+
+``` shell
+$ terraform output -state="./terraform.tfstate" argocd_initial_password
+```
+Now, create a port forward that will route you to  the dashboard from the browser on your local machine. This will continue running until you stop the process by pressing `CTRL + C`.
+
+```shell
+$ kubectl port-forward svc/argocd-server -n argocd 8080:443
+```
+
+You should be able to access the Kubernetes dashboard [here](https://127.0.0.1:8080).
+
+```plaintext
+https://127.0.0.1:8080
+```
