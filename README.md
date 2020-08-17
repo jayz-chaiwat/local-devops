@@ -50,6 +50,32 @@ To get the IP address of your cluster
 minikube ip
 ```
 
+Once minikube start finishes, run the command below to check the status of the cluster:
+
+``` shell
+minikube status
+```
+
+If your cluster is running, the output from minikube status should be similar to:
+
+``` text
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+After you have confirmed whether Minikube is working with your chosen hypervisor, you can continue to use Minikube or you can stop your cluster. To stop your cluster, run:
+```
+
+``` shell
+minikube stop
+```
+
+Clean up local state
+
+``` shell
+minikube delete
+```
+
 ## Add a configuration
 
 create a file `configuration.tfvars` in the same directory, and populate it with your configuration. 
