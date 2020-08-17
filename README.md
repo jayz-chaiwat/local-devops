@@ -23,20 +23,20 @@ Initial terraform download library
 
 ``` shell
 cd tf/components/
-terraform init
+terraform init -var-file=../env/loc.tfvars
 ```
 
 Terraform validate and build
 
 ``` shell
 terraform validate
-terraform plan
+terraform plan -var-file=../env/loc.tfvars
 ```
 
 Terraform apply (Run)
 
 ``` shell
-terraform apply
+terraform apply -var-file=../env/loc.tfvars
 ```
 
 ## Setting Metrics Server for docker-desktop
@@ -95,6 +95,6 @@ token:      eyJhbGciOiJSUzI1NiIsImtpZCI6I...
 
 Select "Token" on the Dashboard UI then copy and paste the entire token you 
 receive into the 
-[dashboard authentication screen](http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) 
+[dashboard authentication screen](http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:https/proxy/) 
 to sign in. You are now signed in to the dashboard for your Kubernetes cluster.
 

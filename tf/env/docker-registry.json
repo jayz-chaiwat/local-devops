@@ -1,0 +1,7 @@
+{
+    "index.docker.io": {
+      "username": "username",
+      "password": "password",
+      "email": "email@address.com"
+    }
+}

@@ -12,10 +12,17 @@ resource "kubernetes_namespace" "default_namespace" {
   ]
 }
 
-resource "null_resource" "secret" {
-  provisioner "local-exec" {     
-     command = "kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=${var.dockerhub_user} --docker-password=${var.dockerhub_password} --docker-email=${var.email} -n ${kubernetes_namespace.default_namespace.metadata.0.name}"
+resource "kubernetes_secret" "docker_pull_secret" {
+  metadata {
+    name = "docker-registry"
+    namespace = kubernetes_namespace.default_namespace.metadata.0.name
   }
+
+  data = {
+    ".dockerconfigjson" = "${file("../env/docker-registry.json")}"
+  }
+
+  type = "kubernetes.io/dockerconfigjson"
 }
 
 resource "random_password" "postgrespass" {
@@ -24,7 +31,7 @@ resource "random_password" "postgrespass" {
   override_special = "_%@"
 
   depends_on = [
-    null_resource.secret,
+    kubernetes_secret.docker_pull_secret,
   ]
 }
 
@@ -75,6 +82,9 @@ resource "kubernetes_deployment" "postgres" {
       }
 
       spec {
+        image_pull_secrets {
+          name = kubernetes_secret.docker_pull_secret.metadata.0.name
+        }
         container {
           image = "postgres:13-alpine"
           name  = "postgres"
